@@ -35,7 +35,7 @@ public class parser {
 		parseXmlFile();
 		
 		//get each employee element and create a Employee object
-//		parseMainDocument();
+		parseMainDocument();
 		
 		parseCastDocument();
 		
