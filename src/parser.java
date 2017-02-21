@@ -41,9 +41,7 @@ public class parser {
 		
 		//Iterate through the list and print the data
 		//printData();
-		
 	}
-	
 	
 	private void parseXmlFile(){
 		//get the factory
@@ -77,30 +75,42 @@ public class parser {
 		String title;
 		String stagename = "";
 		String director = "";
-		
-		
 
 		NodeList dList = docEle.getElementsByTagName("dirfilms");
 		if(dList != null && dList.getLength() > 0) {
 			for(int j = 0 ; j < dList.getLength();j++) {
 				Element d = (Element)dList.item(j);
+				
+				//get director
 				director = getTextValue(d, "is");
-				stagename = getTextValue(d, "a");
-				title = getTextValue(d, "t");
+				System.out.println("\n\n--------------------\nDirector: " + director);
 				
-				System.out.println("Director: " + director);
-				System.out.println("Stagename: " + stagename);
-				System.out.println("Title: " + title);
-				
-
-				Cast c = new Cast(title, stagename, director);
-				castList.add(c);
+				NodeList fList = d.getElementsByTagName("filmc");
+				if(fList != null && fList.getLength() > 0) {
+					for(int i = 0 ; i < fList.getLength();i++) {
+						Element f = (Element)fList.item(i);
+						
+						//get title
+						title = getTextValue(f, "t");
+						System.out.println("\nTitle: " + title);
+						
+						NodeList aList = f.getElementsByTagName("m");
+						if(aList != null && aList.getLength() > 0) {
+							for(int k = 0 ; k < aList.getLength();k++) {
+								Element a = (Element)aList.item(k);
+								//get actorname
+								stagename = getTextValue(a, "a");
+								System.out.println("Actor Name: " + stagename);
+		
+								Cast c = new Cast(title, stagename, director);
+								castList.add(c);
+							}
+						}
+					}
+				}		
 			}
 		}
-				
-
-			
-		
+					
 		System.out.println("letsgo");
 		System.out.println(castList.size());
 	}
@@ -215,6 +225,7 @@ public class parser {
 
 		//call run example
 		dpe.runExample();
+		
 	}
 
 }
